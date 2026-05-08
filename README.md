@@ -1,50 +1,51 @@
-# River Network Python Preprocessing Pipeline
+# Python preprocessing pipeline pro říční síť
 
-This project prepares segmented vector river-network data for downstream
-cartographic visualization in GIS software. The main workflow is a clean Python
-preprocessing pipeline built around GeoPandas, Pandas, Shapely and PyProj.
+Tento projekt připravuje segmentovanou vektorovou říční síť pro následnou
+kartografickou vizualizaci v GIS software. Hlavní workflow je čistý Python
+preprocessing pipeline postavený na knihovnách GeoPandas, Pandas, Shapely a
+PyProj.
 
-The repository is inspired by the Japan MLIT W05 river dataset, but the core
-code separates reusable network-processing logic from W05-specific field names
-and regional assumptions.
+Projekt je inspirovaný datasetem Japan MLIT W05, ale jádro kódu odděluje
+znovupoužitelnou logiku síťového zpracování od W05-specific názvů polí a
+regionálních předpokladů.
 
-## What This Project Does
+## Co Projekt Dělá
 
-- discovers vector river datasets grouped by folder,
-- validates required stream-network attributes,
-- checks and harmonizes CRS metadata,
-- filters river segments with known flow direction,
-- preserves original line geometry,
-- assigns optional region metadata,
-- computes length and source-distance metrics,
-- exports a GeoPackage layer ready for GIS symbolization.
+- vyhledá vektorové říční datasety seskupené ve složkách,
+- zkontroluje povinné atributy říční sítě,
+- ověří a harmonizuje CRS metadata,
+- vyfiltruje segmenty se známým směrem toku,
+- zachová původní liniovou geometrii,
+- volitelně doplní regionální metadata,
+- spočítá délkové a source-distance metriky,
+- vyexportuje GeoPackage vrstvu připravenou pro GIS symbolizaci.
 
-The prepared output can then be styled, laid out and exported in ArcGIS Pro,
-QGIS or another GIS package. Software-specific cartographic automation is kept
-outside the main preprocessing workflow.
+Připravený výstup lze následně stylovat, vložit do layoutu a exportovat v
+ArcGIS Pro, QGIS nebo jiném GIS nástroji. Software-specific kartografická
+automatizace není součástí hlavního preprocessing workflow.
 
-## Repository Layout
+## Struktura Repozitáře
 
 ```text
 river_pipeline/
-  config.py        # Dataset profiles and field mappings
-  discovery.py     # Filesystem and vector dataset discovery helpers
-  network.py       # Pure Python directed-network metrics
+  config.py        # Dataset profily a field mapping
+  discovery.py     # Vyhledávání složek a vektorových datasetů
+  network.py       # Čistý Python výpočet directed-network metrik
 
 notebooks/
   river_network_processing_plan.ipynb
 
 examples/
-  # reserved for dataset-specific examples
+  # místo pro dataset-specific příklady
 ```
 
 ## Data
 
-Raw data is intentionally not tracked in Git. The local `data/` folder is close
-to 1 GB and contains files over GitHub's normal 100 MB limit.
+Raw data nejsou verzovaná v Gitu. Lokální složka `data/` má téměř 1 GB a
+obsahuje soubory přes běžný GitHub limit 100 MB.
 
-To run the notebook with the Japan W05 example, place the extracted W05 source
-folders under:
+Pro spuštění notebooku nad příkladem Japan W05 vlož rozbalené zdrojové W05
+složky sem:
 
 ```text
 data/
@@ -56,15 +57,15 @@ data/
     ...
 ```
 
-The W05 profile expects these execution-critical fields:
+W05 profil očekává tato execution-critical pole:
 
-- `W05_006`: known-flow flag,
+- `W05_006`: flag známého směru toku,
 - `W05_009`: upstream/start node ID,
 - `W05_010`: downstream/end node ID.
 
-## Setup
+## Instalace
 
-Create an environment with the geospatial Python dependencies:
+Vytvoř prostředí s geospatial Python závislostmi:
 
 ```bash
 python -m venv .venv
@@ -72,26 +73,35 @@ source .venv/bin/activate
 python -m pip install -r requirements.txt
 ```
 
-Then open and run:
+Potom otevři a spusť:
 
 ```text
 notebooks/river_network_processing_plan.ipynb
 ```
 
-The notebook writes prepared GeoPackage outputs and a CSV QA report under
-`outputs/python_preprocessing/`.
+Notebook zapisuje připravené GeoPackage výstupy a CSV QA report do:
 
-## Main Workflow
+```text
+outputs/python_preprocessing/
+```
 
-The main workflow is the notebook and `river_pipeline` package. It does not
-depend on ArcPy or any other desktop-GIS automation API.
+## Hlavní Workflow
 
-## Limitations
+Hlavní workflow tvoří notebook a package `river_pipeline`. Nezávisí na ArcPy ani
+na žádném jiném desktop-GIS automation API.
 
-- The bundled W05 profile is dataset-specific and does not make all river data
-  automatically compatible.
-- CRS fallback values must be checked against source documentation and spatial
-  extents before serious use.
-- Length metrics depend on a suitable projected CRS.
-- Source-distance metrics assume a directed acyclic network. Cyclic segments
-  are intentionally flagged with undefined distances.
+Výstupem preprocessing pipeline je dataset připravený pro:
+
+- aplikaci symbologie,
+- tvorbu layoutů,
+- export map v libovolném GIS software.
+
+## Limitace
+
+- Přiložený W05 profil je dataset-specific a neznamená automatickou kompatibilitu
+  se všemi říčními daty.
+- Fallback CRS je kvalifikovaný předpoklad a musí se ověřit proti zdrojové
+  dokumentaci a spatial extentu.
+- Délkové metriky závisí na vhodném projektovaném CRS.
+- Source-distance metrika předpokládá orientovanou acyklickou síť. Segmenty v
+  cyklech jsou označené neurčitelnou vzdáleností.
