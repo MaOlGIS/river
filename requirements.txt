@@ -1,0 +1,5 @@
+geopandas>=0.14
+ipykernel>=6.0
+pandas>=2.0
+pyproj>=3.6
+shapely>=2.0

@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Environments
+.env
+.venv/
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Local and generated GIS outputs
+outputs/
+*.gpkg-journal
+*.lock
+*.lck
+*.gdb/
+*.sde
+
+# Raw source data is large and should be downloaded separately.
+# The current W05 source folder is close to 1 GB and contains files over
+# GitHub's normal 100 MB file limit.
+data/
+
+# Local-only notes and optional legacy tooling not intended for the public repo.
+docs/PROJECT_AUDIT_AND_REFACTOR.md
+extensions/arcgis/
+examples/japan/japan_w05_workflow.py
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
